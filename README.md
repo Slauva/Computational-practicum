@@ -3,53 +3,6 @@
 * Slava Koshman
 * v.koshman@innopolis.university
 
-## 1. Exact Solution of Differential equation
-
-Given Initial Value Problem(IVP):
-${\begin{cases} 
-y' = f(x,y) \\
-y(x_0)=y_0 \\
-x \in (x_0; X)
-\end{cases}}$
-
-Given IVP parts:
-${\begin{cases} 
-y' = 2y^{1/2}cos(x)\frac{1}{x}-\frac{2y}{x} \\
-x_0=\pi \\
-y_0=2 \\
-X = 5\pi
-\end{cases}}$
-
-### 1.1 General Solution
-
-We have Bernoulli's Equation
-* An equation in the form: ${y'+a(x)y = b(x)y^n}$
-* Source equation: ${y' = 2y^{1/2}cos(x)\frac{1}{x}-\frac{2y}{x}}$, ${n=\frac{1}{2}}$
-
-1. Add ${\frac{2y}{x}}$ to both sides: ${y'+\frac{2y}{x}} = 2y^{1/2}cos(x)\frac{1}{x}$
-2. Divide both sides by ${2y^{\frac{1}{2}}}$: ${\frac{y'}{2y^{1/2}}+\frac{y^{1/2}}{x}} = cos(x)\frac{1}{x}$
-3. Make a substitution ${z = z(x)=\frac{1}{y^{n-1}}}\to {z=y^{1/2}}$, which gives ${z'=\frac{y'}{2y^{1/2}}} \to{z' +\frac{1}{x}z=\frac{cos(x)}{x}}$
-
-We got non-homogeneous linear equation
-
-### 1.1.2 Solve non-homogeneous linear equation
-* ${z' +\frac{1}{x}z=\frac{cos(x)}{x}}$
-
-1. Lets solve the complementary equation: ${z' +\frac{1}{x}z=0}$
-1.2 ${\frac{dz}{dx}=-\frac{z}{x}}$
-1.3 Divide both parts by ${z}$ and multiply by ${dx}$: ${\frac{dz}{z}=-\frac{dx}{x}}$
-1.4 Integrate both parts: ${\int\frac{dz}{z}=-\int\frac{dx}{x} \to ln|z|=-ln|x|+C \to z=\frac{C}{x}}$ where ${C = C(x) \to z(x)=\frac{C(x)}{x}} \to z'=\frac{C'(x)x-C(x)}{x^2}$
-1.5 Let's put new values in our equation: ${\frac{C'(x)x-C(x)}{x^2} - \frac{C(x)}{x^2}=\frac{cos(x)}{x} \to \frac{C'(x)}{x}=\frac{cos(x)}{x}\to C'(x)=cos(x) \to C(x)=sin(x)+C_0}$
-2. ${z=\frac{C(x)}{x}=\frac{sin(x)+C_0}{x}}$ and ${z=y^{1/2} \to y = \frac{(sin(x)+C_0)^2}{x^2}}$
-
-We have ${y = \frac{(sin(x)+C_0)^2}{x^2}}$
-
-### 1.1.3 Solve IVP
-
-* Let ${x = x_0}$ and ${y = y_0}$ then ${y_0 = \frac{(sin(x_0)+C_0)^2}{x_0^2}}$
-* Solve for ${C_0}$: ${C_0=x_0\sqrt{y_0}-sin(x_0)}$
-* Insert into the general solution: ${y = \frac{(sin(x)+x_0\sqrt{y_0}-sin(x_0))^2}{x^2} \to y = \frac{(sin(x)+\pi\sqrt(2))^2}{x^2}}$
-
 ## 1.2 Computed Solution of Initial Value Problem (Graphs)
 
 ### Solution with different methods
