@@ -1,13 +1,13 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {
-    Navbar,
     Container,
-    Nav, Row, Col,
-    InputGroup, FormControl, Form,
+    Row, Col,
 } from "react-bootstrap";
-import {LinkContainer} from "react-router-bootstrap";
 import Graph from "../graph";
+import Header from "../header";
+import InputItem from "../form-item-input";
+import CheckboxItem from "../form-item-checkbox";
 
 export default class App extends Component {
 
@@ -66,19 +66,7 @@ export default class App extends Component {
     render() {
         return (
             <Router>
-                <Navbar bg="primary" variant="dark">
-                    <Container>
-                        <Navbar.Brand href="#home">Computational Practicum</Navbar.Brand>
-                        <Nav className="me-auto">
-                            <LinkContainer to={"/"}>
-                                <Nav.Link>Solutions of the equations</Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to={"/error"}>
-                                <Nav.Link>Approximation errors</Nav.Link>
-                            </LinkContainer>
-                        </Nav>
-                    </Container>
-                </Navbar>
+                <Header/>
                 <Container className={"mt-5"}>
                     <Row>
                         <Col xl={8}>
@@ -92,70 +80,20 @@ export default class App extends Component {
                             </Switch>
                         </Col>
                         <Col xl={4}>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Text id="p-x-0">x0</InputGroup.Text>
-                                <FormControl
-                                    placeholder="Parameter x0"
-                                    aria-label="x0"
-                                    aria-describedby="p-x-0"
-                                    value={this.state.x0}
-                                    onChange={this.onInput_x0}
-                                />
-                            </InputGroup>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Text id="p-y-0">y0</InputGroup.Text>
-                                <FormControl
-                                    placeholder="Parameter y0"
-                                    aria-label="y0"
-                                    aria-describedby="p-y-0"
-                                    value={this.state.y0}
-                                    onChange={this.onInput_y0}
-                                />
-                            </InputGroup>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Text id="p-x">X</InputGroup.Text>
-                                <FormControl
-                                    placeholder="Parameter X"
-                                    aria-label="X"
-                                    aria-describedby="p-x"
-                                    value={this.state.X}
-                                    onChange={this.onInput_x}
-                                />
-                            </InputGroup>
-                            <InputGroup className="mb-3">
-                                <InputGroup.Text id="p-n">N</InputGroup.Text>
-                                <FormControl
-                                    placeholder="Parameter N"
-                                    aria-label="N"
-                                    aria-describedby="p-n"
-                                    value={this.state.n}
-                                    onChange={this.onInput_n}
-                                />
-                            </InputGroup>
-                            <Form.Group className="mb-3" controlId="check-1">
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Euler's method"
-                                    checked={this.state.euler_method}
-                                    onChange={this.onCheckEuler}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="check-2">
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Improved Euler's method"
-                                    checked={this.state.improved_euler_method}
-                                    onChange={this.onCheckImproved}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="check-3">
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Runge-Kutta method"
-                                    checked={this.state.runge_kutta_method}
-                                    onChange={this.onCheckRunge}
-                                />
-                            </Form.Group>
+                            <InputItem id="px0" label="x_0" value={this.state.x0} onHandler={this.onInput_x0}/>
+                            <InputItem id="py0" label="y_0" value={this.state.y0} onHandler={this.onInput_y0}/>
+                            <InputItem id="px" label="X" value={this.state.X} onHandler={this.onInput_x}/>
+                            <InputItem id="pn" label="N" value={this.state.n} onHandler={this.onInput_n}/>
+
+                            <CheckboxItem id="c1" label="Euler's method"
+                                          value={this.state.euler_method}
+                                          onHandler={this.onCheckEuler}/>
+                            <CheckboxItem id="c2" label="Improved Euler's method"
+                                          value={this.state.improved_euler_method}
+                                          onHandler={this.onCheckImproved}/>
+                            <CheckboxItem id="c3" label="Runge-Kutta method"
+                                          value={this.state.runge_kutta_method}
+                                          onHandler={this.onCheckRunge}/>
                         </Col>
                     </Row>
                 </Container>
