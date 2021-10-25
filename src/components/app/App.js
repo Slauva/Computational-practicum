@@ -72,10 +72,13 @@ export default class App extends Component {
                         <Col xl={8}>
                             <Switch>
                                 <Route path={"/"} exact>
-                                    <Graph data={this.state} error={false}/>
+                                    <Graph data={this.state} error={1}/>
                                 </Route>
-                                <Route path={"/error"}>
-                                    <Graph data={this.state} error={true}/>
+                                <Route path={"/lte"}>
+                                    <Graph data={this.state} error={2}/>
+                                </Route>
+                                <Route path={"/gte"}>
+                                    <Graph data={this.state} error={3}/>
                                 </Route>
                             </Switch>
                         </Col>

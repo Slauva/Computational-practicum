@@ -10,6 +10,7 @@ export default class Calculator {
         this.axis_x = [x0];
         this.axis_y = [y0];
         this.axis_y_error = [];
+        this.axis_y_local = [];
 
         for (let i = 1; i < n; i++) {
             this.axis_x.push(this.axis_x[i-1] + this.h);

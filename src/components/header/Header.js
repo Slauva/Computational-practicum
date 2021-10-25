@@ -12,8 +12,11 @@ export default class Header extends Component{
                         <LinkContainer to={"/"}>
                             <Nav.Link>Solutions of the equations</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to={"/error"}>
-                            <Nav.Link>Approximation errors</Nav.Link>
+                        <LinkContainer to={"/lte"}>
+                            <Nav.Link>LTE</Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to={"/gte"}>
+                            <Nav.Link>GTE</Nav.Link>
                         </LinkContainer>
                     </Nav>
                 </Container>

@@ -10,6 +10,32 @@ export default class Graph extends Component {
         super(props);
     }
 
+    getPlotByMethod(method, type, flag, color, label) {
+        if (!flag)
+            return {}
+
+        let res = null;
+        switch (type) {
+            case 1:
+                res = method.getSolution();
+                break;
+            case 2:
+                res = method.getLocalErrorSolution();
+                break;
+            case 3:
+                res = method.getGlobalErrorSolution();
+                break;
+        }
+        return {
+            data: res.y,
+            label: label,
+            fill: false,
+            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+            borderColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
+        }
+
+    }
+
     render() {
         let {x0, y0, X, n, euler_method, improved_euler_method, runge_kutta_method} = this.props.data;
         let error = this.props.error;
@@ -23,46 +49,13 @@ export default class Graph extends Component {
 
         const data = {
             labels: euler.axis_x,
-            datasets: []
+            datasets: [
+                this.getPlotByMethod(euler, error, euler_method, [255, 99, 132], "Euler method"),
+                this.getPlotByMethod(improved, error, improved_euler_method, [255, 0, 255], "Improved Euler method"),
+                this.getPlotByMethod(rungeKutta, error, runge_kutta_method, [0, 0, 255], "Runge-Kutta method"),
+            ]
         }
-
-        if (euler_method) {
-            let res = error ? euler.getErrorSolution() : euler.getSolution();
-            let plot = {
-                data: res.y,
-                label: "Euler method",
-                fill: false,
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgba(255, 99, 132, 0.2)',
-            }
-            data.datasets.push(plot);
-        }
-
-        if (improved_euler_method) {
-            let res = error ? improved.getErrorSolution() : improved.getSolution();
-            let plot = {
-                data: res.y,
-                label: "Improved Euler method",
-                fill: false,
-                backgroundColor: 'rgb(255, 0, 255)',
-                borderColor: 'rgba(255, 0, 255, 0.2)',
-            }
-            data.datasets.push(plot);
-        }
-
-        if (runge_kutta_method) {
-            let res = error ? rungeKutta.getErrorSolution() : rungeKutta.getSolution();
-            let plot = {
-                data: res.y,
-                label: "Runge-Kutta method",
-                fill: false,
-                backgroundColor: 'rgb(0, 0, 255)',
-                borderColor: 'rgba(0, 0, 255, 0.2)',
-            }
-            data.datasets.push(plot);
-        }
-
-        if (!error) {
+        if (error === 1) {
             data.datasets.push({
                 data: exa.y,
                 label: "Exact Solution",
