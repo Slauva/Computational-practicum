@@ -12,7 +12,7 @@ export default class Graph extends Component {
 
     getPlotByMethod(method, type, flag, color, label) {
         if (!flag)
-            return {}
+            return [null, {}];
 
         let res = null;
         switch (type) {
@@ -26,33 +26,39 @@ export default class Graph extends Component {
                 res = method.getGlobalErrorSolution();
                 break;
         }
-        return {
-            data: res.y,
-            label: label,
-            fill: false,
-            backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
-            borderColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
-        }
-
+        return [
+            res.x,
+            {
+                data: res.y,
+                label: label,
+                fill: false,
+                backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                borderColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
+            }
+        ];
     }
 
     render() {
-        let {x0, y0, X, n, euler_method, improved_euler_method, runge_kutta_method} = this.props.data;
+        let {x0, y0, X, n, maxN, euler_method, improved_euler_method, runge_kutta_method} = this.props.data;
         let error = this.props.error;
 
-        let exactSolution = new ExactSolution(x0, y0, X, n);
+        let exactSolution = new ExactSolution(x0, y0, X, n, maxN);
         let exa = exactSolution.getSolution();
 
-        let euler = new EulerMethod(x0, y0, X, n, exa);
-        let improved = new ImprovedEulerMethod(x0, y0, X, n, exa);
-        let rungeKutta = new RungeKuttaMethod(x0, y0, X, n, exa)
+        let euler = new EulerMethod(x0, y0, X, n, maxN, exactSolution);
+        let improved = new ImprovedEulerMethod(x0, y0, X, n, maxN, exactSolution);
+        let rungeKutta = new RungeKuttaMethod(x0, y0, X, n, maxN, exactSolution)
+
+        let [x_0, frame_0] = this.getPlotByMethod(euler, error, euler_method, [255, 99, 132], "Euler method");
+        let [x_1, frame_1] = this.getPlotByMethod(improved, error, improved_euler_method, [255, 0, 255], "Improved Euler method");
+        let [x_2, frame_2] = this.getPlotByMethod(rungeKutta, error, runge_kutta_method, [0, 0, 255], "Runge-Kutta method");
 
         const data = {
-            labels: euler.axis_x,
+            labels: x_0 || x_1 || x_2 || exa.x,
             datasets: [
-                this.getPlotByMethod(euler, error, euler_method, [255, 99, 132], "Euler method"),
-                this.getPlotByMethod(improved, error, improved_euler_method, [255, 0, 255], "Improved Euler method"),
-                this.getPlotByMethod(rungeKutta, error, runge_kutta_method, [0, 0, 255], "Runge-Kutta method"),
+                frame_0,
+                frame_1,
+                frame_2,
             ]
         }
         if (error === 1) {

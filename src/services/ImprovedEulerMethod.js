@@ -1,49 +1,36 @@
 import Calculator from "./Calculator";
 
 export default class ImprovedEulerMethod extends Calculator {
-    constructor(x0, y0, x, n, exactSolution) {
-        super(x0, y0, x, n, exactSolution);
+    constructor(x0, y0, x, n, maxN, exactSolution) {
+        super(x0, y0, x, n, maxN, exactSolution);
     }
 
-    getSolution = () => {
-        for (let i = 0; i < this.n - 1; i++) {
-            let x = this.axis_x[i];
-            let y = this.axis_y[i];
+    getSolution = (n, h) => {
+
+        let axis_y = [this.y0];
+        let axis_x = [this.x0];
+
+        h = !h ? this.h : h;
+        n = !n ? this.n : n;
+
+        for (let i = 1; i < n; i++) {
+            axis_x.push(axis_x[i - 1] + h);
+        }
+
+        for (let i = 0; i < n - 1; i++) {
+            let x = axis_x[i];
+            let y = axis_y[i];
 
             let k1 = this.equation(x, y);
-            let k2 = this.equation(x + this.h, y + this.h * k1);
+            let k2 = this.equation(x + h, y + h * k1);
 
-            let y_new = y + this.h * (k1 + k2) / 2;
-            this.axis_y.push(y_new);
+            let y_new = y + h * (k1 + k2) / 2;
+            axis_y.push(y_new);
         }
-
+        console.log(axis_y);
         return {
-            x: this.axis_x,
-            y: this.axis_y
-        }
-    }
-
-    getGlobalErrorSolution = () => {
-        let res = this.getSolution();
-        for (let i = 0; i < this.n; i++) {
-            this.axis_y_error.push(Math.abs(this.exactSolution.y[i] - res.y[i]));
-        }
-        return {
-            x: this.axis_x,
-            y: this.axis_y_error
-        }
-    }
-
-    getLocalErrorSolution = () => {
-        let res = this.getSolution();
-        for (let i = 0; i < this.n - 1; i++) {
-            let t = res.y[i+1] - res.y[i] - this.h * this.equation(res.x[i], res.y[i]);
-            this.axis_y_local.push(t);
-        }
-        this.axis_y_local.push(this.axis_y_local[this.n-1]);
-        return {
-            x: this.axis_x,
-            y: this.axis_y_local
+            x: axis_x,
+            y: axis_y
         }
     }
 }

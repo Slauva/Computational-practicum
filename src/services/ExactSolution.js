@@ -7,18 +7,28 @@ export default class ExactSolution extends Calculator {
     }
 
     exact = (x) => {
-        return Math.pow((Math.sin(x) + this.c),2) / Math.pow(x, 2);
+        return Math.pow((Math.sin(x) + this.c), 2) / Math.pow(x, 2);
     }
 
-    getSolution = () => {
-        for (let i = 1; i < this.n; i++) {
-            let x = this.axis_x[i];
-            this.axis_y.push(this.exact(x));
+    getSolution = (n, h) => {
+        let axis_y = [this.y0];
+        let axis_x = [this.x0];
+
+        h = !h ? this.h : h;
+        n = !n ? this.n : n;
+
+        for (let i = 1; i < n; i++) {
+            axis_x.push(axis_x[i - 1] + h);
+        }
+
+        for (let i = 1; i < n; i++) {
+            let x = axis_x[i];
+            axis_y.push(this.exact(x));
         }
 
         return {
-            x: this.axis_x,
-            y: this.axis_y
+            x: axis_x,
+            y: axis_y
         }
     }
 }

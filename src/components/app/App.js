@@ -16,6 +16,7 @@ export default class App extends Component {
         "y0": 2,
         "X": 5 * Math.PI,
         "n": 20,
+        "maxN": 200,
         "euler_method": true,
         "improved_euler_method": false,
         "runge_kutta_method": false,
@@ -42,6 +43,12 @@ export default class App extends Component {
     onInput_n = (event) => {
         this.setState({
             "n": +event.target.value
+        })
+    }
+
+    onInput_maxN = (event) => {
+        this.setState({
+            "maxN": +event.target.value
         })
     }
 
@@ -87,6 +94,7 @@ export default class App extends Component {
                             <InputItem id="py0" label="y_0" value={this.state.y0} onHandler={this.onInput_y0}/>
                             <InputItem id="px" label="X" value={this.state.X} onHandler={this.onInput_x}/>
                             <InputItem id="pn" label="N" value={this.state.n} onHandler={this.onInput_n}/>
+                            <InputItem id="pmaxn" label="Max N" value={this.state.maxN} onHandler={this.onInput_maxN}/>
 
                             <CheckboxItem id="c1" label="Euler's method"
                                           value={this.state.euler_method}
